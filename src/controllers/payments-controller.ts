@@ -11,7 +11,16 @@ export async function getPayments(req: AuthenticatedRequest, res: Response) {
         const payments = await paymentsService.getPayments(parseInt(ticketId), userId);
         res.status(httpStatus.OK).send(payments)
     } catch (error) {
-        console.log(error)
-        res.sendStatus(httpStatus.INTERNAL_SERVER_ERROR)
+        if (error.name == "RequestError") {
+            return res.status(httpStatus.BAD_REQUEST).send(error.message);
+        };
+
+        if (error.name == "NotFoundError") {
+            return res.status(httpStatus.NOT_FOUND).send(error.message);
+        };
+        if (error.name == "UnauthorizedError") {
+            return res.status(httpStatus.UNAUTHORIZED).send({ message: "Ticket does not belong this user" });
+        };
+        console.log(error);
     }
 };

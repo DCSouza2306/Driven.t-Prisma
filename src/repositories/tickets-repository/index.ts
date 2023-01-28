@@ -8,8 +8,27 @@ async function getTicketsTypes() {
     }
 };
 
+async function getTickets(){
+    try{
+        return prisma.ticket.findMany({
+            select:{
+                id: true,
+                status: true,
+                ticketTypeId: true,
+                enrollmentId: true,
+                TicketType: true,
+                createdAt: true,
+                updatedAt: true
+            }
+        })
+    } catch(error){
+        throw error;
+    }
+}
+
 const ticketsRepository = {
-    getTicketsTypes
+    getTicketsTypes,
+    getTickets
 };
 
 export default ticketsRepository;

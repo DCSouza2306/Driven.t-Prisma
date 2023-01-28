@@ -1,5 +1,7 @@
 import { prisma } from "@/config";
 import { TicketType, Enrollment, Address } from "@prisma/client";
+import dayjs from "dayjs";
+import { date } from "joi";
 
 
 async function getTicketsTypes() {
@@ -46,7 +48,7 @@ async function getTicketById(id: number){
     } catch (error) {
         throw error;
     };
-}
+};
 
 async function createTicket(ticketType: TicketType, userEnrollment: Enrollment & { Address: Address[] }) {
     try {
@@ -60,6 +62,22 @@ async function createTicket(ticketType: TicketType, userEnrollment: Enrollment &
     } catch (error) {
         throw error;
     }
+};
+
+async function updateTicket(ticketId: number){
+    try{
+        prisma.ticket.update({
+            where: {
+                id: ticketId
+            },
+            data:{
+                status: "PAID",
+                updatedAt: dayjs().toISOString(),
+            }
+        })
+    } catch(error) {
+        throw error
+    }
 }
 
 const ticketsRepository = {
@@ -67,7 +85,8 @@ const ticketsRepository = {
     getTickets,
     createTicket,
     getTicketsTypeById,
-    getTicketById
+    getTicketById,
+    updateTicket
 };
 
 export default ticketsRepository;

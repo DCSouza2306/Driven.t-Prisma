@@ -14,7 +14,6 @@ async function getTickets(id: number) {
     try {
         const userEnrollment = await enrollmentRepository.findWithAddressByUserId(id);
         if (!userEnrollment) {
-            console.log("erro de cadastro");
             throw notFoundError();
         };
         const tickets = await ticketsRepository.getTickets();

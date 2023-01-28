@@ -10,27 +10,47 @@ async function getTicketsTypes() {
     }
 };
 
-async function getTickets(id: number){
-    try{
+async function getTickets(id: number) {
+    try {
         const userEnrollment = await enrollmentRepository.findWithAddressByUserId(id);
-        if(!userEnrollment){
+        if (!userEnrollment) {
             console.log("erro de cadastro");
             throw notFoundError();
         };
         const tickets = await ticketsRepository.getTickets();
-        if(tickets.length == 0){
+        if (tickets.length == 0) {
             throw notFoundError();
         };
 
         return tickets;
-    } catch(error) {
+    } catch (error) {
         throw error;
     }
 };
 
+async function postTicket(userId: number, ticketTypeId: number) {
+    try {
+        const userEnrollment = await enrollmentRepository.findWithAddressByUserId(userId);
+        if (!userEnrollment) {
+            throw notFoundError();
+        };
+
+        const ticketType = await ticketsRepository.getTicketsTypeById(ticketTypeId);
+        if(!ticketType) {
+            throw notFoundError();
+        }
+
+        return await ticketsRepository.createTicket(ticketType, userEnrollment)
+
+    } catch (error) {
+        throw error;
+    }
+}
+
 const ticketsService = {
     getTicketsTypes,
-    getTickets
+    getTickets,
+    postTicket
 };
 
 export default ticketsService;

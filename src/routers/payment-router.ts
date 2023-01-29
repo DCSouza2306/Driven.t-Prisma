@@ -6,9 +6,8 @@ import { paymentSchema } from "@/schemas/payment-schema";
 
 const paymentRouter = Router();
 paymentRouter
-    .all("/*", authenticateToken)
-    .get("/", getPayments)
-    .post("/process", validateBody(paymentSchema), postPayment)
-
+  .all("/*", authenticateToken)
+  .get("/", getPayments)
+  .post("/process", validateBody(paymentSchema), postPayment);
 
 export { paymentRouter };

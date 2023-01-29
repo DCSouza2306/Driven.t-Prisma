@@ -2,90 +2,65 @@ import { prisma } from "@/config";
 import { TicketType, Enrollment, Address } from "@prisma/client";
 import dayjs from "dayjs";
 
-
 async function getTicketsTypes() {
-    try {
-        return prisma.ticketType.findMany()
-    } catch (error) {
-        throw error;
-    }
-};
+  return prisma.ticketType.findMany();
+}
 
 async function getTicketsTypeById(id: number) {
-    try {
-        return prisma.ticketType.findFirst({
-            where: { id }
-        })
-    } catch (error) {
-        throw error;
-    };
+  return prisma.ticketType.findFirst({
+    where: { id },
+  });
 }
 
 async function getTickets() {
-    try {
-        return prisma.ticket.findFirst({
-            select: {
-                id: true,
-                status: true,
-                ticketTypeId: true,
-                enrollmentId: true,
-                TicketType: true,
-                createdAt: true,
-                updatedAt: true
-            }
-        })
-    } catch (error) {
-        throw error;
-    }
-};
+  return prisma.ticket.findFirst({
+    select: {
+      id: true,
+      status: true,
+      ticketTypeId: true,
+      enrollmentId: true,
+      TicketType: true,
+      createdAt: true,
+      updatedAt: true,
+    },
+  });
+}
 
-async function getTicketById(id: number){
-    try {
-        return prisma.ticket.findFirst({
-            where: { id }
-        })
-    } catch (error) {
-        throw error;
-    };
-};
+async function getTicketById(id: number) {
+  return prisma.ticket.findFirst({
+    where: { id },
+  });
+}
 
 async function createTicket(ticketType: TicketType, userEnrollment: Enrollment & { Address: Address[] }) {
-    try {
-        return prisma.ticket.create({
-            data:{
-                ticketTypeId: ticketType.id,
-                enrollmentId: userEnrollment.id,
-                status: "RESERVED"
-            }
-        })
-    } catch (error) {
-        throw error;
-    }
-};
+  return prisma.ticket.create({
+    data: {
+      ticketTypeId: ticketType.id,
+      enrollmentId: userEnrollment.id,
+      status: "RESERVED",
+    },
+  });
+}
 
-async function updateTicket(ticketId: number){
-    try{
-        return prisma.ticket.update({
-            where: {
-                id: ticketId
-            },
-            data:{
-                status: "PAID",
-                updatedAt: dayjs().toISOString(),
-            }
-        })
-    } catch(error) {
-        throw error
-    }
+async function updateTicket(ticketId: number) {
+  return prisma.ticket.update({
+    where: {
+      id: ticketId,
+    },
+    data: {
+      status: "PAID",
+      updatedAt: dayjs().toISOString(),
+    },
+  });
 }
 
 const ticketsRepository = {
-    getTicketsTypes,
-    getTickets,
-    createTicket,
-    getTicketsTypeById,
-    getTicketById,
-    updateTicket
+  getTicketsTypes,
+  getTickets,
+  createTicket,
+  getTicketsTypeById,
+  getTicketById,
+  updateTicket,
 };
 
 export default ticketsRepository;

@@ -6,9 +6,9 @@ import { ticketSchema } from "@/schemas/tickets-schema";
 
 const ticketsRouter = Router();
 ticketsRouter
-    .all("/*", authenticateToken)
-    .get("/types", getTicketsTypes)
-    .get("/", getTickets)
-    .post("/",validateBody(ticketSchema), postTicket)
+  .all("/*", authenticateToken)
+  .get("/types", getTicketsTypes)
+  .get("/", getTickets)
+  .post("/", validateBody(ticketSchema), postTicket);
 
 export { ticketsRouter };

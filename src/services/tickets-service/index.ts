@@ -16,12 +16,12 @@ async function getTickets(id: number) {
         if (!userEnrollment) {
             throw notFoundError();
         };
-        const tickets = await ticketsRepository.getTickets();
-        if (tickets.length == 0) {
+        const ticket = await ticketsRepository.getTickets();
+        if (!ticket) {
             throw notFoundError();
         };
 
-        return tickets;
+        return ticket
     } catch (error) {
         throw error;
     }
@@ -34,13 +34,13 @@ async function postTicket(userId: number, ticketTypeId: number) {
             throw notFoundError();
         };
 
-        const ticketType = await ticketsRepository.getTicketsTypeById(ticketTypeId);
-        if(!ticketType) {
+        const TicketType = await ticketsRepository.getTicketsTypeById(ticketTypeId);
+        if(!TicketType) {
             throw notFoundError();
         }
 
-        return await ticketsRepository.createTicket(ticketType, userEnrollment)
-
+        const ticket = await ticketsRepository.createTicket(TicketType, userEnrollment);
+        return {...ticket,TicketType}
     } catch (error) {
         throw error;
     }

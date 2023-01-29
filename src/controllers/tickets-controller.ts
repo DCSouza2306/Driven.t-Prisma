@@ -3,6 +3,7 @@ import httpStatus from "http-status";
 import ticketsService from "@/services/tickets-service";
 import { AuthenticatedRequest } from "@/middlewares";
 
+
 export type ticketType = {
     ticketTypeId: number,
 }

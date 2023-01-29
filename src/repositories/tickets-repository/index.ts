@@ -1,7 +1,6 @@
 import { prisma } from "@/config";
 import { TicketType, Enrollment, Address } from "@prisma/client";
 import dayjs from "dayjs";
-import { date } from "joi";
 
 
 async function getTicketsTypes() {
@@ -24,7 +23,7 @@ async function getTicketsTypeById(id: number) {
 
 async function getTickets() {
     try {
-        return prisma.ticket.findMany({
+        return prisma.ticket.findFirst({
             select: {
                 id: true,
                 status: true,
@@ -66,7 +65,7 @@ async function createTicket(ticketType: TicketType, userEnrollment: Enrollment &
 
 async function updateTicket(ticketId: number){
     try{
-        prisma.ticket.update({
+        return prisma.ticket.update({
             where: {
                 id: ticketId
             },

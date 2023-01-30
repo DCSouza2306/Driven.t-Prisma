@@ -30,7 +30,7 @@ async function postTicket(userId: number, ticketTypeId: number) {
     throw notFoundError();
   }
 
-  const ticket = await ticketsRepository.createTicket(TicketType, userEnrollment);
+  const ticket = await ticketsRepository.createTicket(TicketType.id, userEnrollment.id);
   return { ...ticket, TicketType };
 }
 

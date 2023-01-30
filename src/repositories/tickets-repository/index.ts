@@ -1,5 +1,4 @@
 import { prisma } from "@/config";
-import { TicketType, Enrollment, Address } from "@prisma/client";
 import dayjs from "dayjs";
 
 async function getTicketsTypes() {
@@ -32,11 +31,11 @@ async function getTicketById(id: number) {
   });
 }
 
-async function createTicket(ticketType: TicketType, userEnrollment: Enrollment & { Address: Address[] }) {
+async function createTicket(ticketTypeId: number, enrollmentId: number ) {
   return prisma.ticket.create({
     data: {
-      ticketTypeId: ticketType.id,
-      enrollmentId: userEnrollment.id,
+      ticketTypeId,
+      enrollmentId,
       status: "RESERVED",
     },
   });
